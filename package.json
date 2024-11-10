@@ -1,7 +1,7 @@
 {
   "name": "@keupoz/r3f-utils",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "packageManager": "pnpm@9.12.3",
   "description": "Small set of utils for @react-three/fiber",
   "author": "keupoz",
@@ -9,6 +9,7 @@
   "homepage": "https://github.com/keupoz/r3f-utils#readme",
   "repository": "https://github.com/keupoz/r3f-utils",
   "keywords": ["three", "react", "r3f", "react-three-fiber", "drei", "camera-controls"],
+  "main": "dist/index.js",
   "files": ["LICENSE", "README.md", "dist/"],
   "scripts": {
     "dev": "vite",
