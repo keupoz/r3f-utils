@@ -1,0 +1,11 @@
+{
+  "extends": "@total-typescript/tsconfig/bundler/dom/app",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "checkJs": true
+  },
+  "include": ["./src", "./*.ts", "./*.mjs"]
+}
