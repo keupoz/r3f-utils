@@ -7,7 +7,7 @@ import { setFocus } from '../utils/setFocus'
 
 export interface FocusControlsProps {
   resetToChildren?: boolean
-  onHighlight?: (object: Object3D | null) => void
+  onHighlight?: (object: Mesh | null) => void
 }
 
 export function FocusControls({ resetToChildren, children, onHighlight }: PropsWithChildren<FocusControlsProps>) {
