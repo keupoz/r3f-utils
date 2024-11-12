@@ -1,7 +1,7 @@
 import type { Group, Object3D } from 'three'
 import { type ThreeEvent, useThree } from '@react-three/fiber'
 import CameraControls from 'camera-controls'
-import { type PropsWithChildren, useMemo, useRef } from 'react'
+import { type PropsWithChildren, useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, EdgesGeometry, LineSegments, Mesh } from 'three'
 import { setFocus } from '../utils/setFocus'
 
@@ -23,6 +23,14 @@ export function FocusControls({ resetToChildren, children, onHighlight }: PropsW
     lineSegments.matrixAutoUpdate = false
     return lineSegments
   }, [])
+
+  useEffect(() => {
+    return () => {
+      scene.remove(highlight)
+      lastObjectRef.current = null
+      onHighlight?.(null)
+    }
+  }, [highlight, onHighlight, scene])
 
   function updateHighlight(e: ThreeEvent<PointerEvent>) {
     const object = e.intersections[0]?.object
