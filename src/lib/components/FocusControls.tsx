@@ -7,9 +7,10 @@ import { setFocus } from '../utils/setFocus'
 
 export interface FocusControlsProps {
   resetToChildren?: boolean
+  onHighlight?: (object: Object3D | null) => void
 }
 
-export function FocusControls({ resetToChildren, children }: PropsWithChildren<FocusControlsProps>) {
+export function FocusControls({ resetToChildren, children, onHighlight }: PropsWithChildren<FocusControlsProps>) {
   const scene = useThree(ctx => ctx.scene)
   const invalidate = useThree(ctx => ctx.invalidate)
   const controls = useThree(ctx => ctx.controls)
@@ -41,12 +42,14 @@ export function FocusControls({ resetToChildren, children }: PropsWithChildren<F
     lastObjectRef.current = object
     scene.add(highlight)
     invalidate()
+    onHighlight?.(object)
   }
 
   function hideHighlight() {
     lastObjectRef.current = null
     scene.remove(highlight)
     invalidate()
+    onHighlight?.(null)
   }
 
   function handleDoubleClick(e: ThreeEvent<MouseEvent>) {
