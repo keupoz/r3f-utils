@@ -30,9 +30,7 @@ interface CameraControlsProps extends Omit<ThreeElement<typeof CameraControlsImp
   onChange?: CameraControlsUpdateHandler
 }
 
-export function CameraControls(props: CameraControlsProps) {
-  const { makeDefault, camera, domElement, regress, onChange, ...restProps } = props
-
+export function CameraControls({ makeDefault, camera, domElement, regress, onChange, ...props }: CameraControlsProps) {
   const defaultCamera = useThree(state => state.camera)
   const glDomElement = useThree(state => state.gl.domElement)
   const connectedDomElement = useThree(state => state.events.connected)
@@ -119,5 +117,5 @@ export function CameraControls(props: CameraControlsProps) {
     }
   }, [controls, get, makeDefault, set])
 
-  return <primitive object={controls} {...restProps} />
+  return <primitive object={controls} {...props} />
 }
