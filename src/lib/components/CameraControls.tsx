@@ -1,9 +1,9 @@
-import type { ReactThreeFiber } from '@react-three/fiber'
+import type { ThreeElement } from '@react-three/fiber'
 import type { CameraControlsEventMap } from 'camera-controls/dist/types'
 import type { EventDispatcher, OrthographicCamera, PerspectiveCamera } from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import CameraControlsImpl from 'camera-controls'
-import { forwardRef, useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Box3, Matrix4, Quaternion, Raycaster, Sphere, Spherical, Vector2, Vector3, Vector4 } from 'three'
 
 CameraControlsImpl.install({
@@ -22,21 +22,15 @@ CameraControlsImpl.install({
 
 export type CameraControlsUpdateHandler = (event: CameraControlsEventMap['controlstart' | 'transitionstart' | 'control' | 'update']) => void
 
-export type CameraControlsProps = Omit<
-  ReactThreeFiber.Overwrite<
-    ReactThreeFiber.Node<CameraControlsImpl, typeof CameraControlsImpl>,
-    {
-      makeDefault?: boolean
-      camera?: PerspectiveCamera | OrthographicCamera
-      domElement?: HTMLElement
-      regress?: boolean
-      onChange?: CameraControlsUpdateHandler
-    }
-  >,
-  'ref' | keyof EventDispatcher
->
+interface CameraControlsProps extends Omit<ThreeElement<typeof CameraControlsImpl>, 'args' | keyof EventDispatcher> {
+  makeDefault?: boolean
+  camera?: PerspectiveCamera | OrthographicCamera
+  domElement?: HTMLElement
+  regress?: boolean
+  onChange?: CameraControlsUpdateHandler
+}
 
-export const CameraControls = forwardRef<CameraControlsImpl, CameraControlsProps>((props, ref) => {
+export function CameraControls(props: CameraControlsProps) {
   const { makeDefault, camera, domElement, regress, onChange, ...restProps } = props
 
   const defaultCamera = useThree(state => state.camera)
@@ -125,5 +119,5 @@ export const CameraControls = forwardRef<CameraControlsImpl, CameraControlsProps
     }
   }, [controls, get, makeDefault, set])
 
-  return <primitive ref={ref} object={controls} {...restProps} />
-})
+  return <primitive object={controls} {...restProps} />
+}

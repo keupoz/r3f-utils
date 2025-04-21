@@ -1,7 +1,9 @@
+import type { ThreeEvent } from '@react-three/fiber'
+import type { PropsWithChildren } from 'react'
 import type { Group, Object3D } from 'three'
-import { type ThreeEvent, useThree } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 import CameraControls from 'camera-controls'
-import { type PropsWithChildren, useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, EdgesGeometry, LineSegments, Mesh } from 'three'
 import { setFocus } from '../utils/setFocus'
 

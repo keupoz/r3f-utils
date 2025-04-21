@@ -1,13 +1,14 @@
 import type { GridProps as DreiGridProps } from '@react-three/drei'
+import type { RefObject } from 'react'
 import type { ColorRepresentation, Mesh } from 'three'
 import { Grid as DreiGrid } from '@react-three/drei'
-import { forwardRef } from 'react'
 
 export interface GridProps extends DreiGridProps {
+  ref?: RefObject<Mesh>
   color?: ColorRepresentation
 }
 
-export const Grid = forwardRef<Mesh, GridProps>(({ color, ...props }, ref) => {
+export function Grid({ ref, color, ...props }: GridProps) {
   return (
     <DreiGrid
       ref={ref}
@@ -23,4 +24,4 @@ export const Grid = forwardRef<Mesh, GridProps>(({ color, ...props }, ref) => {
       {...props}
     />
   )
-})
+}

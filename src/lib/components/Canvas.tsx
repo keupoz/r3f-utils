@@ -1,14 +1,12 @@
 import type { CanvasProps } from '@react-three/fiber'
 import { Canvas as R3FCanvas } from '@react-three/fiber'
-import { forwardRef } from 'react'
 import { LinearSRGBColorSpace, NoToneMapping } from 'three'
 
-export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>((props, ref) => {
+export function Canvas(props: CanvasProps) {
   const { legacy = true, gl, children, ...restProps } = props
 
   return (
     <R3FCanvas
-      ref={ref}
       frameloop="demand"
       legacy={legacy}
       gl={{
@@ -21,4 +19,4 @@ export const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>((props, ref) =>
       {children}
     </R3FCanvas>
   )
-})
+}
