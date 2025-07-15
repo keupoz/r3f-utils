@@ -22,7 +22,7 @@ CameraControlsImpl.install({
 
 export type CameraControlsUpdateHandler = (event: CameraControlsEventMap['controlstart' | 'transitionstart' | 'control' | 'update']) => void
 
-interface CameraControlsProps extends Omit<ThreeElement<typeof CameraControlsImpl>, 'args' | keyof EventDispatcher> {
+export interface CameraControlsProps extends Omit<ThreeElement<typeof CameraControlsImpl>, 'args' | keyof EventDispatcher> {
   makeDefault?: boolean
   camera?: PerspectiveCamera | OrthographicCamera
   domElement?: HTMLElement
