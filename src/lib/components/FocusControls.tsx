@@ -10,9 +10,10 @@ import { setFocus } from '../utils/setFocus'
 export interface FocusControlsProps {
   resetToChildren?: boolean
   onHighlight?: (object: Mesh | null) => void
+  onFocus?: (object: Object3D | null) => void
 }
 
-export function FocusControls({ resetToChildren, children, onHighlight }: PropsWithChildren<FocusControlsProps>) {
+export function FocusControls({ resetToChildren, children, onHighlight, onFocus }: PropsWithChildren<FocusControlsProps>) {
   const scene = useThree(ctx => ctx.scene)
   const invalidate = useThree(ctx => ctx.invalidate)
   const controls = useThree(ctx => ctx.controls)
@@ -31,8 +32,9 @@ export function FocusControls({ resetToChildren, children, onHighlight }: PropsW
       scene.remove(highlight)
       lastObjectRef.current = null
       onHighlight?.(null)
+      onFocus?.(null)
     }
-  }, [highlight, onHighlight, scene])
+  }, [highlight, onFocus, onHighlight, scene])
 
   function updateHighlight(e: ThreeEvent<PointerEvent>) {
     const object = e.intersections[0]?.object
@@ -69,6 +71,7 @@ export function FocusControls({ resetToChildren, children, onHighlight }: PropsW
     if (!(controls instanceof CameraControls)) return
 
     setFocus(controls, object)
+    onFocus?.(object)
   }
 
   function handleMiss(e: MouseEvent) {
@@ -80,6 +83,8 @@ export function FocusControls({ resetToChildren, children, onHighlight }: PropsW
     } else {
       controls.reset(true)
     }
+
+    onFocus?.(null)
   }
 
   return (
