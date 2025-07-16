@@ -18,30 +18,31 @@ export function App() {
   const roundedBoxRef = useRef<Mesh | null>(null)
   const rotatedRoundedBoxRef = useRef<Mesh | null>(null)
 
-  function focusObject(object: Object3D | null) {
+  function focusObject(object: Object3D | null, enableTransition: boolean) {
     if (controlsRef.current && object) {
-      setFocus(controlsRef.current, object)
+      setFocus(controlsRef.current, object, enableTransition)
     }
   }
 
-  const { resetToChildren } = useControls({
+  const { enableTransition, resetToChildren } = useControls({
+    'enableTransition': true,
     'resetToChildren': false,
-    'Focus box': button(() => focusObject(boxRef.current)),
-    'Focus sphere': button(() => focusObject(sphereRef.current)),
-    'Focus rounded box': button(() => focusObject(roundedBoxRef.current)),
-    'Focus rotated rounded box': button(() => focusObject(rotatedRoundedBoxRef.current)),
+    'Focus box': button(get => focusObject(boxRef.current, get('enableTransition'))),
+    'Focus sphere': button(get => focusObject(sphereRef.current, get('enableTransition'))),
+    'Focus rounded box': button(get => focusObject(roundedBoxRef.current, get('enableTransition'))),
+    'Focus rotated rounded box': button(get => focusObject(rotatedRoundedBoxRef.current, get('enableTransition'))),
   })
 
   return (
     <Canvas>
       <PerspectiveCamera makeDefault position={[32, 32, 32]} />
-      <CameraControls ref={controlsRef} makeDefault />
+      <CameraControls ref={controlsRef} draggingSmoothTime={enableTransition ? 1 / 24 : 0} makeDefault />
 
       <Lights />
 
       <Grid color={0x252525} />
 
-      <FocusControls resetToChildren={resetToChildren}>
+      <FocusControls enableTransition={enableTransition} resetToChildren={resetToChildren}>
         <Box ref={boxRef} args={[8, 8, 16]} material={BASE_MATERIAL} position={[-10, 4, -16]} />
         <Sphere ref={sphereRef} args={[6]} material={BASE_MATERIAL} position={[12, 6, -8]} />
         <RoundedBox ref={roundedBoxRef} args={[6, 6, 8]} material={BASE_MATERIAL} position={[10, 3, 10]} radius={0.5} />

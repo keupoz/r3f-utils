@@ -8,12 +8,13 @@ import { BufferGeometry, EdgesGeometry, LineSegments, Mesh } from 'three'
 import { setFocus } from '../utils/setFocus'
 
 export interface FocusControlsProps {
+  enableTransition?: boolean
   resetToChildren?: boolean
   onHighlight?: (object: Mesh | null) => void
   onFocus?: (object: Object3D | null) => void
 }
 
-export function FocusControls({ resetToChildren, children, onHighlight, onFocus }: PropsWithChildren<FocusControlsProps>) {
+export function FocusControls({ enableTransition = true, resetToChildren, children, onHighlight, onFocus }: PropsWithChildren<FocusControlsProps>) {
   const scene = useThree(ctx => ctx.scene)
   const invalidate = useThree(ctx => ctx.invalidate)
   const controls = useThree(ctx => ctx.controls)
@@ -70,7 +71,7 @@ export function FocusControls({ resetToChildren, children, onHighlight, onFocus 
     if (!object) return
     if (!(controls instanceof CameraControls)) return
 
-    setFocus(controls, object)
+    setFocus(controls, object, enableTransition)
     onFocus?.(object)
   }
 
@@ -79,9 +80,10 @@ export function FocusControls({ resetToChildren, children, onHighlight, onFocus 
     if (!(controls instanceof CameraControls)) return
 
     if (resetToChildren && groupRef.current) {
-      setFocus(controls, groupRef.current)
+      setFocus(controls, groupRef.current, enableTransition)
     } else {
-      controls.reset(true)
+      controls.reset(enableTransition)
+      if (!enableTransition) invalidate()
     }
 
     onFocus?.(null)
